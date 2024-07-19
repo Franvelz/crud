@@ -4,15 +4,13 @@ import { CreateNewUser } from './components/CreateNewUser.tsx'
 
 function App () {
   return (
-    <>
+    <main className='main-container'>
       <TableUsers />
       <CreateNewUser />
-    </>
+    </main>
   )
 }
 
 export default App
 
 // Agregar footer para ver los estados
-// Agregar acciones: Eliminar y Editar un usuario
-// Agregar estilos

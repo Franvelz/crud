@@ -1,47 +1,96 @@
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { useUsersContext } from "../hooks/useUsersContex"
 import { User } from "../types"
 
 export function CreateNewUser () {
-  const { users, setUsers } = useUsersContext()
+  const { users, setUsers, editingUser, setEditingUser } = useUsersContext()
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (editingUser) {
+      setName(editingUser.name)
+      setLastName(editingUser.lastName)
+      setEmail(editingUser.email)
+    }
+  }, [editingUser])
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-
-    const form = event.target as HTMLFormElement
-    const formData = new FormData(form)
-
-    const name = formData.get('name')?.toString()
-    const lastName = formData.get('lastName')?.toString()
-    const email = formData.get('email')?.toString()
     
     if (!name || !lastName || !email) {
       setError('Todos los campos deben estar completos')
       return
     }
 
-    const newUser: User = {
-      id: users.length + 1,
-      name: name,
-      lastName: lastName,
-      email: email
+    if (editingUser) {
+      const editedNewUser: User[] = users.map((user) => (
+        user.id === editingUser.id ? { ...user, name, lastName, email } : user
+      ))
+      setEditingUser(null)
+      setUsers(editedNewUser)
+    } else {
+      const newUser: User = {
+        id: users.length + 1, // Crear ID unico
+        name: name,
+        lastName: lastName,
+        email: email
+      }
+      setUsers([...users, newUser])
     }
 
     setError(null)
-    setUsers([...users, newUser])
-    form.reset()
+    setName("")
+    setLastName("")
+    setEmail("")
+  }
+
+  const handleReset = () => {
+    setName("")
+    setLastName("")
+    setEmail("")
+    setEditingUser(null)
   }
 
   return (
-    <div className="div-form">
-      <form className="form-new-user" onSubmit={handleSubmit}>
-        <input type="text" name="name" id="name" placeholder="Name..."/>
-        <input type="text" name="lastName" id="lastName" placeholder="Last Name..."/>
-        <input type="text" name="email" id="email" placeholder="Email..."/>
-        <button type="submit">Crear Nuevo Usuario</button>
-        {error && <p>{error}</p>}
-      </form>
-    </div>
+    <form className="form-new-user" onSubmit={handleSubmit}>
+      <div className="div-input">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          value={name}
+          placeholder="Name..."
+          onChange={(event) => setName(event.target.value)}
+        />
+      </div>
+      <div className="div-input">
+        <input
+          type="text" 
+          name="lastName" 
+          id="lastName" 
+          value={lastName} 
+          placeholder="Last Name..."
+          onChange={(event) => setLastName(event.target.value)}
+        />
+      </div>
+      <div className="div-input">
+        <input 
+          type="text" 
+          name="email" 
+          id="email" 
+          value={email} 
+          placeholder="Email..."
+          onChange={(event) => setEmail(event.target.value)}
+        />
+      </div>
+      <div className="div-button-submit">
+        <button type="submit">{editingUser ? 'Editar' : 'Crear Nuevo Usuario'}</button>
+        <button type="reset" onClick={handleReset}>Cancelar</button>
+        {error && <p className="paragraph-error">{error}</p>}
+      </div>
+    </form>
   )
 }

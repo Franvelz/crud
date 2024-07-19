@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { PropsChildren, User, UserContextType } from '../types';
 
-export const DEFAULT_STATE: User[] = [
+const DEFAULT_STATE: User[] = [
   {
     id: 1,
     name: 'Pedro',
@@ -26,9 +26,10 @@ export const UsersContext = createContext<UserContextType>({} as UserContextType
 
 export function UsersContextProvider ({ children }: PropsChildren) {
   const [users, setUsers] = useState(DEFAULT_STATE)
+  const [editingUser, setEditingUser] = useState<User | null>(null)
 
   return (
-    <UsersContext.Provider value={{users, setUsers}}>
+    <UsersContext.Provider value={{ users, setUsers, editingUser, setEditingUser }}>
       {children}
     </UsersContext.Provider>
   )

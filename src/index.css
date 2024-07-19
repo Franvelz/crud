@@ -1,0 +1,130 @@
+html {
+  font-family: sans-serif;
+}
+
+body {
+  background-color: rgb(36, 36, 36);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: white;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+/* Table */
+.container-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-users {
+  width: 100%;
+  max-width: 1000px;
+  text-align: center;
+  margin: 30px auto 0;
+  border: 2px solid white;
+  border-radius: 10px;
+  border-collapse: collapse;
+}
+
+.table-users thead {
+  background-color: rgb(216, 216, 216);
+}
+
+.table-users thead tr th {
+  border: 2px solid white;
+  padding: 10px;
+  color: black;
+}
+ 
+.table-users tr:nth-child(even) {
+  background-color: rgb(61, 61, 61);
+}
+
+.table-users tr td{
+  border: 2px solid white;
+  padding: 10px;
+}
+
+.td-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.table-users button {
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 3px 6px;
+  cursor: pointer;
+}
+
+.table-users button:disabled {
+  background-color: rgba(255, 0, 0, 0.5);
+  transition: background-color 0.3s ease;
+}
+
+.icon-svg {
+  width: 25px;
+}
+
+/* Form */
+.form-new-user {
+  display: grid;
+  gap: 10px;
+}
+
+.div-input input {
+  background-color: transparent;
+  font-family: sans-serif;
+  padding: 15px 20px;
+  border-radius: 6px;
+  border: 1px solid white;
+  font-size: 16px;
+  outline: none;
+}
+
+.div-button-submit {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-new-user button {
+  background-color: transparent;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid white;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.form-new-user button:hover {
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.paragraph-error {
+  max-width: 190px;
+  text-align: center;
+  margin: auto;
+  color: rgb(170, 0, 0);
+  background-color: rgb(252, 115, 115);
+  border: 2px solid rgb(170, 0, 0);
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 6px;
+}

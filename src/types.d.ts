@@ -12,4 +12,6 @@ export interface PropsChildren {
 export interface UserContextType {
   users: User[]; 
   setUsers: React.Dispatch<React.SetStateAction<User[]>>;
+  editingUser: User | null,
+  setEditingUser: React.Dispatch<React.SetStateAction<User | null>>
 }
