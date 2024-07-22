@@ -25,11 +25,16 @@ const DEFAULT_STATE: User[] = [
 export const UsersContext = createContext<UserContextType>({} as UserContextType)
 
 export function UsersContextProvider ({ children }: PropsChildren) {
-  const [users, setUsers] = useState(DEFAULT_STATE)
+  const storage = localStorage.getItem('__stateUsers__')
+  const [users, setUsers] = useState(storage ? JSON.parse(storage) as User[] : DEFAULT_STATE)
   const [editingUser, setEditingUser] = useState<User | null>(null)
 
+  const setUsersStateDefault = () => {
+    setUsers(DEFAULT_STATE)
+  }
+
   return (
-    <UsersContext.Provider value={{ users, setUsers, editingUser, setEditingUser }}>
+    <UsersContext.Provider value={{ users, setUsers, editingUser, setEditingUser, setUsersStateDefault }}>
       {children}
     </UsersContext.Provider>
   )

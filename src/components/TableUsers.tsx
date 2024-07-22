@@ -1,12 +1,36 @@
+import toast from "react-hot-toast"
 import { useUsersContext } from "../hooks/useUsersContex.ts"
 import { DeleteIcon, EditIcon } from "./icons/TableIcons.tsx"
 
 export function TableUsers () {
-  const { users, setUsers, editingUser, setEditingUser } = useUsersContext()
+  const { users, setUsers, editingUser, setEditingUser, setUsersStateDefault } = useUsersContext()
+
+  const handleDefaultStateClick = () => {
+    setUsersStateDefault()
+    toast.success('Estado por default', { position: 'bottom-right' })
+  }
 
   const handleDeleteClick = (userId: number) => {
-    const newUsersState = users.filter((user) => user.id !== userId) // Hacer algo diferente (?
+    const userFind = users.find((user) => user.id === userId)
+    const newUsersState = users.filter((user) => user.id !== userId)
+    const prevUsersState = [...users]
+
     setUsers(newUsersState)
+
+    fetch(`https://jsonplaceholder.typicode.com/users/${userFind?.id}`, {
+      method: 'DELETE',
+    })
+      .then(res => {
+        if (res.ok) {
+          toast.success(`Usuario ${userFind?.id} ${userFind?.name} eliminado correctamente`, { position: 'bottom-right' })
+        } else {
+          throw new Error('Error al eliminar el usuario')
+        }
+      })
+      .catch((e) => {
+        setUsers(prevUsersState)
+        toast.error(`Hubo un error al tratar de eliminar el usuario. ${e}`, { position: 'bottom-right' })
+      })
   }
 
   const handleEditClick = (userId: number) => {
@@ -14,11 +38,11 @@ export function TableUsers () {
     if (user) {
       setEditingUser(user)
     }
-    console.log(user)
   }
 
   return (
     <div className="container-table">
+      <button className="button-default-state" onClick={handleDefaultStateClick}>Estado Default</button>
       <table className="table-users">
         <thead>
           <tr>
