@@ -51,7 +51,6 @@ body {
   width: 100%;
   max-width: 1000px;
   text-align: center;
-  margin-top: 30px;
   border: 2px solid white;
   border-radius: 10px;
   border-collapse: collapse;
@@ -146,4 +145,10 @@ body {
   background-color: white;
   border: 1px solid black;
   cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .container-table {
+    align-items: flex-start;
+  }
 }
